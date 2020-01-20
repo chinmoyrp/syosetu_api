@@ -44,6 +44,9 @@ if __name__ == '__main__':
         allcount = result[0]['allcount']
         if allcount == 0:
             print("Skipping", date)
+            with open('empty_dates', 'a+', encoding='utf-8') as ed:
+                ed.write(str(date))
+                ed.write('\n')
             continue
         
         with open('{}.json'.format(get_datetext(date)), 'w', encoding='utf-8') as f:
