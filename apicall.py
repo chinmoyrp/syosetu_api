@@ -33,7 +33,7 @@ def daterange(start_date, end_date):
 
 
 if __name__ == '__main__':
-    start_date = datetime.date(2004, 4, 1) #launch of syosetu
+    start_date = datetime.date(2004, 4, 19) #launch of syosetu
     end_date = datetime.date(2020, 1, 20) #today i.e 2020-01-20
     for date in daterange(start_date, end_date):
         ts_range = get_ts_range(date.year, date.month, date.day) # will return something like "1301583600.0-1304175599.0"
