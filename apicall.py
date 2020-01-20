@@ -63,7 +63,7 @@ if __name__ == '__main__':
                 result_new = response_new.json()                    
                 aux_counter += len(result_new) - 1
                 print("\tStill processing for", date, "at step", st, "\tallcount={} main_counter={} aux_counter={}".format(allcount, main_counter, aux_counter)) 
-                with open('{}.{}.json'.format(get_datetext(day), st), 'w', encoding='utf-8') as f1:
+                with open('{}.{}.json'.format(get_datetext(date), st), 'w', encoding='utf-8') as f1:
                     json.dump(result_new, f1, ensure_ascii=False, indent=1)
     
     print('Written {}({}) records'.format(main_counter, aux_counter))
