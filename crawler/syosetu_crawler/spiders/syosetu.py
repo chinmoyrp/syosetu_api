@@ -40,7 +40,7 @@ class SyosetuSpider(scrapy.Spider):
                 data = '\n'.join([title, author, content])
             f.write(data)
                 
-        self.log("Written index %s" % ncode)
+        self.log("Written index for %s" % ncode)
         
         for href in response.css('dd.subtitle a::attr(href)').getall():
             yield response.follow(href, self.parse_chapters)
