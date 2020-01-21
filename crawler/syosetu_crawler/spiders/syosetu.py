@@ -10,10 +10,9 @@ class SyosetuSpider(scrapy.Spider):
         with open('ncodes.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
         ncodes = data['2004']
-        #print(len(ncodes))
-        #for ncode in ncodes:
-            #url = 'http://ncode.syosetu.com/{}'.format(ncode)
-        yield scrapy.Request(url='http://ncode.syosetu.com/n1745ct', callback=self.parse)
+        for ncode in ncodes:
+            url = 'http://ncode.syosetu.com/{}'.format(ncode)
+        yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         ncode = response.url.split('/')[-1]

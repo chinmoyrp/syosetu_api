@@ -9,7 +9,7 @@ import scrapy
 
 class Novel(scrapy.Item):
     # define the fields for your item here like:
-    title = scrapy.Field()
-    author = scrapy.Field()
-    summary = scrapy.Field()
-    chapters = scrapy.Field()
+    #title = scrapy.Field()
+    #author = scrapy.Field()
+    #summary = scrapy.Field()
+    #chapters = scrapy.Field()
