@@ -13,9 +13,9 @@ class SyosetuSpider(scrapy.Spider):
         ncodes = data['2004']
         self.count = len(ncodes)
         self.log("Found %d novels"%self.count)
-        #for ncode in ncodes:
-            #url = 'http://ncode.syosetu.com/{}'.format(ncode)
-        yield scrapy.Request(url='http://ncode.syosetu.com/n1044fj', callback=self.parse)
+        for ncode in ncodes:
+            url = 'http://ncode.syosetu.com/{}'.format(ncode)
+            yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         self.current += 1
