@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+import scrapy
+import json
+import os
+
+class SyosetuSpider(scrapy.Spider):
+    name = 'syosetu'
+    allowed_domains = ['ncode.syosetu.com']
+    def start_requests(self):
+        with open('ncodes.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        ncodes = data['2004']
+        #print(len(ncodes))
+        #for ncode in ncodes:
+            #url = 'http://ncode.syosetu.com/{}'.format(ncode)
+        yield scrapy.Request(url='http://ncode.syosetu.com/n1745ct', callback=self.parse)
+
+    def parse(self, response):
+        ncode = response.url.split('/')[-1]
+        if os.path.exists('novels') == False:
+            os.mkdir('novels')
+        if os.path.exists('novels/%s'%ncode) == False:
+            os.mkdir('novels/%s'%ncode)
+        
+        title = response.css('p.novel_title').get()
+        author = response.css('div.novel_writername').get()
+        summary = response.css('div#novel_ex').get()
+        index = response.css('div.index_box').get()
+        
+        with open('novels/%s/%s.html'%(ncode,ncode), 'w', encoding='utf-8') as f:
+            data = '\n'.join([title, author, summary, index])
+            f.write(data)
+        self.log("Written index %s" % ncode)
+        
+        for href in response.css('dd.subtitle a::attr(href)').getall():
+            yield response.follow(href, self.parse_chapters)
+        
+    def parse_chapters(self, response):
+        split = response.url.rstrip('/').split('/')
+        chapter = split[-1]
+        ncode = split[-2]
+        idx = response.css('div#novel_no').get()
+        subtitle = response.css('p.novel_subtitle').get()
+        content = '\n'.join(response.css('div.novel_view').getall())
+        
+        with open('novels/%s/%s.html'%(ncode,chapter), 'w', encoding='utf-8') as f:
+            data = '\n'.join([idx, subtitle, content])
+            f.write(data)
+        self.log("Written chapter %s"%chapter)
+        
+            
