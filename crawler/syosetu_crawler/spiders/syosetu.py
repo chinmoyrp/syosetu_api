@@ -31,17 +31,17 @@ class SyosetuSpider(scrapy.Spider):
         self.current += 1
         ncode = response.url.split('/')[-1]
         self.log("Processing %s \t %d/%d"%(ncode, self.current, self.count))
-        if os.path.exists('novels') == False:
-            os.mkdir('novels')
-        if os.path.exists('novels/%s.%s'%(ncode, self.key)) == False:
-            os.mkdir('novels/%s.%s'%(ncode, self.key))
+        if os.path.exists('novels.%s'%self.key) == False:
+            os.mkdir('novels.%s'%self.key)
+        if os.path.exists('novels.%s/%s'%(self.key,ncode)) == False:
+            os.mkdir('novels.%s/%s'%(self.key,ncode))
         
         title = response.css('p.novel_title').get()
         author = response.css('div.novel_writername').get()
         summary = response.css('div#novel_ex').get()
         index = response.css('div.index_box').get()
         
-        with open('novels/%s/%s.html'%(ncode,ncode), 'w', encoding='utf-8') as f:
+        with open('novels.%s/%s/%s.html'%(self.key,ncode,ncode), 'w', encoding='utf-8') as f:
             data = ""
             if summary != None and index != None:
                 data = '\n'.join([title, author, summary, index])
@@ -63,7 +63,7 @@ class SyosetuSpider(scrapy.Spider):
         subtitle = response.css('p.novel_subtitle').get()
         content = '\n'.join(response.css('div.novel_view').getall())
         
-        with open('novels/%s/%s.html'%(ncode,chapter), 'w', encoding='utf-8') as f:
+        with open('novels.%s/%s/%s.html'%(self.key, ncode,chapter), 'w', encoding='utf-8') as f:
             data = '\n'.join([idx, subtitle, content])
             f.write(data)
         self.log("Written chapter %s/%s \t (novel: %d/%d)"%(chapter, idx.split('/')[1], self.current, self.count))
