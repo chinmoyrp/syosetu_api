@@ -7,10 +7,20 @@ class SyosetuSpider(scrapy.Spider):
     name = 'syosetu'
     allowed_domains = ['ncode.syosetu.com']
     current = 0
+    key = None
+    json=None
+    
+    def __init__(self, key=None, json=None *args, **kwargs):
+        super(SyosetuSpider, self).__init__(*args, **kwargs)
+        self.key = key
+        self.json = json
+        
     def start_requests(self):
-        with open('ncodes.json', 'r', encoding='utf-8') as f:
+        with open(str(self.json), 'r', encoding='utf-8') as f:
             data = json.load(f)
-        ncodes = data['2004']
+        key = str(self.key)
+        self.log("###################KEY = %s\t JSON=%s"%(key, self.json))
+        ncodes = data[key]
         self.count = len(ncodes)
         self.log("Found %d novels"%self.count)
         for ncode in ncodes:
