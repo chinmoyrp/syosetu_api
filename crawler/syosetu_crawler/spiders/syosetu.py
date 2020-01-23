@@ -34,7 +34,7 @@ class SyosetuSpider(scrapy.Spider):
         if os.path.exists('novels') == False:
             os.mkdir('novels')
         if os.path.exists('novels/%s'%ncode) == False:
-            os.mkdir('novels/%s'%ncode)
+            os.mkdir('novels/%s.%s'%(ncode, self.key))
         
         title = response.css('p.novel_title').get()
         author = response.css('div.novel_writername').get()
