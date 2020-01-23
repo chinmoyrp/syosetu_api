@@ -10,7 +10,7 @@ class SyosetuSpider(scrapy.Spider):
     key = None
     json=None
     
-    def __init__(self, key=None, json=None *args, **kwargs):
+    def __init__(self, key=None, json=None, *args, **kwargs):
         super(SyosetuSpider, self).__init__(*args, **kwargs)
         self.key = key
         self.json = json
@@ -33,7 +33,7 @@ class SyosetuSpider(scrapy.Spider):
         self.log("Processing %s \t %d/%d"%(ncode, self.current, self.count))
         if os.path.exists('novels') == False:
             os.mkdir('novels')
-        if os.path.exists('novels/%s'%ncode) == False:
+        if os.path.exists('novels/%s.%s'%(ncode, self.key)) == False:
             os.mkdir('novels/%s.%s'%(ncode, self.key))
         
         title = response.css('p.novel_title').get()
